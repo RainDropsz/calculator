@@ -15,8 +15,8 @@ header {
   max-width: 60vh;
   margin: 8vh auto;
   border: 5px outset #7979ff;
-  border-radius: 2vw;
-  box-shadow: 0 0 2vw #000000; 
+  border-radius: 2vh;
+  box-shadow: 0 0 2vw #666666; 
 }
 
 .inputline, .ansline {
@@ -61,7 +61,7 @@ header {
 
 .number, .dot, .exp, .op, .ans, .eql, .del {
   text-align: center; padding: 2vh 0;
-  box-shadow: 0 0 .3vw #000000;
+  box-shadow: 0 0 .3vh #330033;
   border-radius: 2vh;
 }
 
