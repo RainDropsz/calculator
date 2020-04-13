@@ -1,23 +1,25 @@
 // Global Variables
-var arrstr = [];
+var arrObj = [];
 var numstr = "";
 var shouldclear = false;
 
 // Functions
 function clickNum(e) {
   if (shouldclear == true) { clickClear(); }
+
   numstr += $(e.target).text();
   $(".inputline").append( $(e.target).text() );
 }
 
 function clickOp(e) {
   var op = $(e.target).text();
+
   if (shouldclear == true) { clickClear(); }
 
   $(".inputline").append( op  );
 
-  arrstr.push ( { num: numstr, isnum: !isDecErr(numstr) } );
-  arrstr.push ( { num: op,     isnum: false             } );
+  arrObj.push ( { num: numstr, isnum: !isDecErr(numstr) } );
+  arrObj.push ( { num: op,     isnum: false             } );
 
   numstr = "";
 }
@@ -26,24 +28,24 @@ function clickEq(e) {
   var opIndex = -1, x = 0, y = 0, ans = "";
   if (shouldclear == true) { clickClear(); }
 
-  arrstr.push ( { num: numstr, isnum: !isDecErr(numstr) } );
+  arrObj.push ( { num: numstr, isnum: !isDecErr(numstr) } );
   numstr = "";
 
-  if (!isarrgood()) {shouldclear = true; showErr(); return;}
+  if (! arrayIsGood()) {shouldclear = true; showErr(); return;}
 
-  while ( arrstr.length > 2) {
-    opIndex = orderOfOp();
+  while ( arrObj.length > 2) {
+    opIndex = orderOfOpIndex();
 
-    x = parseFloat(arrstr[ opIndex - 1 ].num);
-    y = parseFloat(arrstr[ opIndex + 1 ].num);
-    op = arrstr[ opIndex ].num;
+    x = parseFloat(arrObj[ opIndex - 1 ].num);
+    y = parseFloat(arrObj[ opIndex + 1 ].num);
+    op = arrObj[ opIndex ].num;
 
     ans = operate(op, x, y);
-    arrstr.splice( opIndex - 1 , 3 , {num:ans, isnum:true});
+    arrObj.splice( opIndex - 1 , 3 , {num:ans, isnum:true});
   }
 
-  if (arrstr.length == 1) {
-    ans = arrstr[0].num;
+  if (arrObj.length == 1) {
+    ans = arrObj[0].num;
   }
 
   ans = roundNum(ans);
@@ -54,46 +56,12 @@ function clickEq(e) {
   shouldclear = true;
 }
 
-function orderOfOp() {
-  var i = 1;
-
-  for ( i = 1; i < arrstr.length; i+=2 ) {
-    if ( arrstr[i].num == "×" || arrstr[i].num == "÷" ) { return i; }  }
-
-  for ( i = 1; i < arrstr.length; i += 2) {
-    if ( arrstr[i].num == "+" || arrstr[i].num == "−" ) { return i;  }  }
-
-  return -1;
-}
-
-function operate( op, x, y) {
-  if      (op == "+")  { return x + y; }
-  else if (op == "−")  { return x - y; }
-  else if (op == "×")  { return x * y; }
-  else if (op == "÷")  { return x / y; }
-}
-
 function clickClear( ) {
   $(".inputline").text( "" );
   $(".ansline").text( "" );
   numstr = "";
-  arrstr = [];
+  arrObj = [];
   shouldclear = false;
-}
-
-function clearNumObj(x) {
-  x.num = "";
-  x.isnum = false;
-}
-
-function isarrgood() {
-  var ans = true;
-
-  for(let i = 0; i < arrstr.length; i+=2) {
-    ans = ans && arrstr[i].isnum;
-  }
-
-  return ans;
 }
 
 function backspace() {
@@ -101,10 +69,10 @@ function backspace() {
   $(".inputline").text( txt.slice(0, txt.length - 1) );
 
   if ( numstr != "") {
-    arrstr.push( { num:numstr, isnum: !isDecErr(numstr) } );
+    arrObj.push( { num:numstr, isnum: !isDecErr(numstr) } );
   }
 
-  var arrtxt = arrstr.pop();
+  var arrtxt = arrObj.pop();
   arrtxt = arrtxt.num;
   numstr = arrtxt.slice(0, numstr.length - 1);
 
@@ -112,13 +80,6 @@ function backspace() {
     arrtxt = arrtxt.slice( 0, arrtxt.length - 1);
     numstr = arrtxt;
   }
-}
-
-function roundNum(ans) {
-  const numdigits = 9;
-
-  ans = Math.round( ans * (10 ** numdigits) ) / (10 ** numdigits);
-  return ans;
 }
 
 function typeNum(e) {
@@ -148,12 +109,49 @@ function typeNum(e) {
   else if (e.key == "Backspace") { $("#backspace") .click(); }
 }
 
+// Helper Functions
+function orderOfOpIndex() {
+  var i = 1;
+
+  for ( i = 1; i < arrObj.length; i+=2 ) {
+    if ( arrObj[i].num == "×" || arrObj[i].num == "÷" ) { return i; }  }
+
+  for ( i = 1; i < arrObj.length; i += 2) {
+    if ( arrObj[i].num == "+" || arrObj[i].num == "−" ) { return i;  }  }
+
+  return -1;
+}
+
+function operate( op, x, y) {
+  if      (op == "+")  { return x + y; }
+  else if (op == "−")  { return x - y; }
+  else if (op == "×")  { return x * y; }
+  else if (op == "÷")  { return x / y; }
+}
+
+function arrayIsGood() {
+  var ans = true;
+
+  for(let i = 0; i < arrObj.length; i+=2) {
+    ans = ans && arrObj[i].isnum;
+  }
+
+  return ans;
+}
+
+function roundNum(ans) {
+  const numdigits = 9;
+
+  ans = Math.round( ans * (10 ** numdigits) ) / (10 ** numdigits);
+  return ans;
+}
+
 function showErr() {
   var errarr = [], ans = "";
 
   errarr.push ("(-.-)");
   errarr.push ("ヽ(´ー｀)┌");
-//  errarr.push ("(╯°□°）╯︵ ┻━┻");
+  //  errarr.push ("(╯°□°）╯︵ ┻━┻");
   errarr.push ("ヽ(`Д´)ﾉ");
   errarr.push ("(ㆆ_ㆆ)");
   errarr.push ("¯" + String.fromCharCode(92) + "_(ツ)_/¯");
