@@ -3,7 +3,6 @@ var arrstr = [];
 var numstr = "";
 var shouldclear = false;
 
-
 // Functions
 function clickNum(e) {
   if (shouldclear == true) { clickClear(); }
@@ -30,7 +29,7 @@ function clickEq(e) {
   arrstr.push ( { num: numstr, isnum: !isDecErr(numstr) } );
   numstr = "";
 
-  if (!isarrgood()) {shouldclear = true; showerrarr(); return;}
+  if (!isarrgood()) {shouldclear = true; showErr(); return;}
 
   while ( arrstr.length > 2) {
     opIndex = orderOfOp();
@@ -49,8 +48,8 @@ function clickEq(e) {
 
   ans = roundNum(ans);
 
-  if ( isNaN(ans) ) { showerrarr(); }
-  else if ( ! isFinite(ans) ) { showerrarr(); }
+  if ( isNaN(ans) ) { showErr(); }
+  else if ( ! isFinite(ans) ) { showErr(); }
   else { $(".ansline").html(ans); }
   shouldclear = true;
 }
@@ -149,9 +148,13 @@ function typeNum(e) {
   else if (e.key == "Backspace") { $("#backspace") .click(); }
 }
 
-function showerrarr() {
+function showErr() {
   var errarr = [], ans = "";
 
+  errarr.push ("(-.-)");
+  errarr.push ("ヽ(´ー｀)┌");
+  errarr.push ("(╯°□°）╯︵ ┻━┻");
+  errarr.push ("ヽ(`Д´)ﾉ");
   errarr.push ("(ㆆ_ㆆ)");
   errarr.push ("¯" + String.fromCharCode(92) + "_(ツ)_/¯");
   errarr.push ("ಠ_ಠ");
