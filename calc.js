@@ -153,7 +153,7 @@ function showErr() {
 
   errarr.push ("(-.-)");
   errarr.push ("ヽ(´ー｀)┌");
-  errarr.push ("(╯°□°）╯︵ ┻━┻");
+//  errarr.push ("(╯°□°）╯︵ ┻━┻");
   errarr.push ("ヽ(`Д´)ﾉ");
   errarr.push ("(ㆆ_ㆆ)");
   errarr.push ("¯" + String.fromCharCode(92) + "_(ツ)_/¯");
