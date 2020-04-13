@@ -72,5 +72,6 @@ header {
           font-size: 2vh; border-radius: 1.5vh;
           line-height: 0; box-sizing: border-box;}
 
-.op, .ans, .eql
+.op, .ans
         { background-color: #ffffaa; }
+.eql    { background-color: #aaffff; }
