@@ -75,3 +75,7 @@ header {
 .op, .ans
         { background-color: #ffffaa; }
 .eql    { background-color: #aaffff; }
+
+footer { position: absolute; bottom: 0; font-size: 2.5vh; text-align:center; width: 100%;}
+a      { color: #aaaacc; text-decoration: none;}
+a:hover { color: #aacccc;}
