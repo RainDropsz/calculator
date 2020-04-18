@@ -65,7 +65,9 @@ function clickClear( ) {
 }
 
 function backspace() {
-  var txt = $(".inputline").text();
+  if (shouldclear == true) { clickClear(); }
+
+  let txt = $(".inputline").text();
   $(".inputline").text( txt.slice(0, txt.length - 1) );
 
   if ( numstr != "") {
