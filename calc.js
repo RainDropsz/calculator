@@ -1,7 +1,9 @@
 // Global Variables
-var arrObj = [];
-var numstr = "";
-var shouldclear = false;
+let arrObj = [];
+let numstr = "";
+let shouldclear = false;
+let isbksp = false;
+
 
 // Functions
 function clickNum(e) {
@@ -10,6 +12,7 @@ function clickNum(e) {
 
   numstr += $(e.target).text();
   $(".inputline").append( $(e.target).text() );
+  isbksp = false;
 }
 
 function clickOp(e) {
@@ -19,14 +22,17 @@ function clickOp(e) {
 
   $(".inputline").append( op  );
 
-  arrObj.push ( { num: numstr, isnum: !isDecErr(numstr) } );
+  if (!isbksp) {
+    arrObj.push ( { num: numstr, isnum: !isDecErr(numstr) } );
+  }
   arrObj.push ( { num: op,     isnum: false             } );
 
   numstr = "";
+  isbksp = false;
 }
 
 function clickEq(e) {
-  var opIndex = -1, x = 0, y = 0, ans = "";
+  let opIndex = -1, x = 0, y = 0, ans = "";
   if (shouldclear == true) { clickClear(); }
 
   arrObj.push ( { num: numstr, isnum: !isDecErr(numstr) } );
@@ -37,9 +43,9 @@ function clickEq(e) {
   while ( arrObj.length > 2) {
     opIndex = orderOfOpIndex();
 
-    x = parseFloat(arrObj[ opIndex - 1 ].num);
-    y = parseFloat(arrObj[ opIndex + 1 ].num);
+    x  = parseFloat(arrObj[ opIndex - 1 ].num);
     op = arrObj[ opIndex ].num;
+    y  = parseFloat(arrObj[ opIndex + 1 ].num);
 
     ans = operate(op, x, y);
     arrObj.splice( opIndex - 1 , 3 , {num:ans, isnum:true});
@@ -58,6 +64,7 @@ function clickEq(e) {
 }
 
 function clickClear( ) {
+  isbksp = false;
   $(".inputline").text( "" );
   $(".ansline").text( "" );
   numstr = "";
@@ -67,21 +74,18 @@ function clickClear( ) {
 
 function backspace() {
   if (shouldclear == true) { clickClear(); }
+  isbksp = true;
 
   let txt = $(".inputline").text();
-  $(".inputline").text( txt.slice(0, txt.length - 1) );
+  $(".inputline").text( txt.slice(0, -1) );
 
   if ( numstr != "") {
-    arrObj.push( { num:numstr, isnum: !isDecErr(numstr) } );
+    numstr = numstr.slice(0,-1);
   }
-
-  var arrtxt = arrObj.pop();
-  arrtxt = arrtxt.num;
-  numstr = arrtxt.slice(0, numstr.length - 1);
-
-  if (arrtxt.length > 1) {
-    arrtxt = arrtxt.slice( 0, arrtxt.length - 1);
-    numstr = arrtxt;
+  else {
+    var arrtxt = arrObj.pop();
+    arrtxt = arrtxt.num;
+    numstr = arrtxt.slice(0, -1);
   }
 }
 
