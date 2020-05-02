@@ -1,6 +1,7 @@
 // Global Variables
 let arrObj = [];
 let numstr = "";
+let anstmp = "";
 let shouldclear = false;
 let isbksp = false;
 
@@ -8,7 +9,7 @@ let isbksp = false;
 // Functions
 function clickNum(e) {
   if (shouldclear == true) { clickClear(); }
-  if (numstr.length >= 9)  { return; }
+  if (numstr.length >= 10) { return; }
 
   numstr += $(e.target).text();
   $(".inputline").append( $(e.target).text() );
@@ -16,9 +17,13 @@ function clickNum(e) {
 }
 
 function clickOp(e) {
-  var op = $(e.target).text();
+  if (shouldclear == true) {
+    clickClear();
+    $(".inputline").text(anstmp);
+    numstr = anstmp;
+  }
 
-  if (shouldclear == true) { clickClear(); }
+  var op = $(e.target).text();
 
   $(".inputline").append( op  );
 
@@ -59,7 +64,7 @@ function clickEq(e) {
 
   if ( isNaN(ans) ) { showErr(); }
   else if ( ! isFinite(ans) ) { showErr(); }
-  else { $(".ansline").html(ans); }
+  else { $(".ansline").html(ans); anstmp = ans}
   shouldclear = true;
 }
 
@@ -90,8 +95,6 @@ function backspace() {
 }
 
 function typeNum(e) {
-  if (shouldclear == true) { clickClear(); }
-
   if      (e.key == "1") { $("#num1").click(); }
   else if (e.key == "2") { $("#num2").click(); }
   else if (e.key == "3") { $("#num3").click(); }
