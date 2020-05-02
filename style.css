@@ -1,8 +1,11 @@
 * { padding: 0; margin: 0;}
 
+body {background-color: #ffeeff;}
+
 header { 
   display: block; text-align: center; margin: 3vh auto; 
-  color: #aaffff; text-shadow:-2px 2px #aaaaff, 0 0 5px #ffd5aa; 
+  color: #aaffff; background-color: #aaaaff; margin: 0; padding: 3vh 0;
+  text-shadow: 0 0 1px #ffffaa;
 }
 
 .bigcont {
