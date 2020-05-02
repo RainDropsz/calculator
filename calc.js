@@ -6,6 +6,7 @@ var shouldclear = false;
 // Functions
 function clickNum(e) {
   if (shouldclear == true) { clickClear(); }
+  if (numstr.length >= 9)  { return; }
 
   numstr += $(e.target).text();
   $(".inputline").append( $(e.target).text() );
@@ -144,7 +145,7 @@ function arrayIsGood() {
 function roundNum(ans) {
   const numdigits = 9;
 
-  ans = Math.round( ans * (10 ** numdigits) ) / (10 ** numdigits);
+  ans = String(Math.round( ans * (10 ** numdigits) ) / (10 ** numdigits)).slice(0,numdigits+2);
   return ans;
 }
 
